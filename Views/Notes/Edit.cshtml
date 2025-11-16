@@ -1,0 +1,45 @@
+﻿@using Notes.Domain
+@model Notes.Application.Dto.NoteDto
+
+@{
+    ViewData["Title"] = "Edit Note";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary">Edit Note</h2>
+    <hr />
+
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Content" class="form-label"></label>
+            <textarea asp-for="Content" class="form-control"></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Priority" class="form-label"></label>
+            <select asp-for="Priority" class="form-select"
+                    asp-items="Html.GetEnumSelectList<PriorityLevel>()">
+                <option value="">-- Select Priority --</option>
+            </select>
+            <span asp-validation-for="Priority" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

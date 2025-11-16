@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="../Notes.Application/Notes.Application.csproj" />
+  <Project Path="../Notes.DataAccess/Notes.DataAccess.csproj" />
+  <Project Path="../Notes.Domain/Notes.Domain.csproj" />
+  <Project Path="NotesPortal.csproj" />
+</Solution>
