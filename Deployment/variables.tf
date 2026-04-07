@@ -6,17 +6,17 @@ variable "location" {
   type        = string
 }
 
-variable "compute_rsg" {
+variable "rg-compute" {
   description = "Resource Group Name"
   type        = string
 }
 
-variable "data_rsg" {
+variable "rg-data" {
   description = "Resource Group Name"
   type        = string
 }
 
-variable "network_rsg" {
+variable "rg-network" {
   description = "Resource Group Name"
   type        = string
 }
