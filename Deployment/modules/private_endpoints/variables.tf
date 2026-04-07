@@ -19,10 +19,10 @@ variable "subnet_id" {
 }
 
 
-variable "cosmosdb_account_id" {
-  description = "Cosmos DB Account ID"
-  type        = string
-}
+# variable "cosmosdb_account_id" {
+#   description = "Cosmos DB Account ID"
+#   type        = string
+# }
 
 variable "search_service_id" {
   description = "Azure AI Search Service ID"
