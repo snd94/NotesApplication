@@ -1,8 +1,8 @@
 location      = "swedencentral"
-compute_rsg   = "rg-compute"
-data_rsg      = "rg-data"
-network_rsg   = "rg-network"
-vnet_name     = "vnet-mss-dev"
+compute_rsg   = "rg-notesapp-compute-dev"
+data_rsg      = "rg-notesapp-data-dev"
+network_rsg   = "rg-notesapp-network-dev"
+vnet_name     = "vnet-notesapp-dev"
 address_space = ["10.0.0.0/16"]
 
 subnets = {
@@ -32,7 +32,7 @@ subnets = {
 }
 
 # Storage Account
-sa_name                  = "stgmssdev"
+sa_name                  = "stnotesappdev01"
 account_tier             = "Standard"
 account_replication_type = "LRS"
 account_kind             = "StorageV2"
@@ -40,7 +40,7 @@ access_tier              = "Hot"
 
 # Cosmos Db
 # Core
-cdb_name = "cosmos-mss-dev-001"
+cdb_name = "cosmos-notesapp-dev-001"
 
 
 # Account
@@ -62,13 +62,13 @@ container_throughput = 400
 
 environments = {
   backend = {
-    name        = "cae-backend-env"
+    name        = "cae-notesapp-backend-dev"
     subnet      = "agent"
     internal_lb = true
   }
 
   frontend = {
-    name        = "cae-frontend-env"
+    name        = "cae-notesapp-frontend-dev"
     subnet      = "frontend"
     internal_lb = false
   }
@@ -157,9 +157,9 @@ container_apps = {
 
 # ai foundry
 
-cognitive_account_name = "ai-fdry-mcc-dev-01"
-custom_subdomain_name  = "ai-fdry-sdomain-mcc-01"
-project_name           = "project-mcc-dev"
+cognitive_account_name = "ai-fdry-notesapp-dev-01"
+custom_subdomain_name  = "ai-fdry-notesapp-dev-01"
+project_name           = "project-notesapp-dev"
 deployment_name        = "gpt-4o"
 model_name             = "gpt-4o"
 model_version          = "2024-11-20"
@@ -169,14 +169,14 @@ deployment_capacity    = 1
 format                 = "OpenAI"
 
 # ai search
-search_service_name = "ai-srch-mcc-dev"
+search_service_name = "ai-srch-notesapp-dev"
 ai_sku              = "standard"
 ai_replica_count    = 1
 ai_partition_count  = 1
 
 #acr
 
-acr_name                = "acrregistrymcc"
+acr_name                = "acrnotesappdev01"
 sku                     = "Premium"
 admin_enabled           = false
 identity_type           = "SystemAssigned"
@@ -196,26 +196,26 @@ encryption = null
 
 # kv
 
-key_vault_name = "kvmccdev"
+key_vault_name = "kv-notesapp-dev"
 kv_sku_name    = "standard"
 
 # azure monitor
 
-log_analytics_workspace_name = "law-mcc-dev"
+log_analytics_workspace_name = "law-notesapp-dev"
 law_sku                      = "PerGB2018"
 retention_in_days            = 30
 daily_quota_gb               = 1
 internet_ingestion_enabled   = true
 internet_query_enabled       = true
 
-app_insights_name             = "appi-mcc-dev"
+app_insights_name             = "appi-notesapp-dev"
 application_type              = "web"
 appinsights_retention_in_days = 30
 sampling_percentage           = 100
 daily_data_cap_in_gb          = 1
 disable_ip_masking            = false
 
-diagnostic_name = "diag-mcc-appinsights"
+diagnostic_name = "diag-notesapp-appinsights"
 
 log_categories    = []
 metric_categories = ["AllMetrics"]

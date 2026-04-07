@@ -1,0 +1,108 @@
+name: Destroy Infrastructure
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Type 'destroy' to confirm teardown of all resources"
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  TF_WORKING_DIR: Deployment
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  ARM_USE_OIDC: true
+
+jobs:
+  terraform-destroy-plan:
+    name: Terraform Destroy Plan
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'destroy'
+    environment: DEV
+    defaults:
+      run:
+        working-directory: ${{ env.TF_WORKING_DIR }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~> 1.9"
+
+      - name: Terraform Init
+        run: |
+          terraform init \
+            -backend-config="resource_group_name=${{ secrets.TF_STATE_RESOURCE_GROUP }}" \
+            -backend-config="storage_account_name=${{ secrets.TF_STATE_STORAGE_ACCOUNT }}" \
+            -backend-config="container_name=${{ secrets.TF_STATE_CONTAINER }}" \
+            -backend-config="key=notesapplication.tfstate" \
+            -backend-config="use_oidc=true"
+
+      - name: Terraform Destroy Plan
+        run: terraform plan -destroy -var-file="Terraform.tfvars" -out=tfplan-destroy
+
+      - name: Upload Destroy Plan Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan-destroy
+          path: ${{ env.TF_WORKING_DIR }}/tfplan-destroy
+          retention-days: 1
+
+  terraform-destroy-apply:
+    name: Terraform Destroy Apply
+    runs-on: ubuntu-latest
+    needs: terraform-destroy-plan
+    environment: DEV
+    defaults:
+      run:
+        working-directory: ${{ env.TF_WORKING_DIR }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~> 1.9"
+
+      - name: Terraform Init
+        run: |
+          terraform init \
+            -backend-config="resource_group_name=${{ secrets.TF_STATE_RESOURCE_GROUP }}" \
+            -backend-config="storage_account_name=${{ secrets.TF_STATE_STORAGE_ACCOUNT }}" \
+            -backend-config="container_name=${{ secrets.TF_STATE_CONTAINER }}" \
+            -backend-config="key=notesapplication.tfstate" \
+            -backend-config="use_oidc=true"
+
+      - name: Download Destroy Plan Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: tfplan-destroy
+          path: ${{ env.TF_WORKING_DIR }}
+
+      - name: Terraform Destroy
+        run: terraform apply -auto-approve tfplan-destroy
