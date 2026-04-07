@@ -1,7 +1,7 @@
 location      = "swedencentral"
-compute_rsg   = "rg-notesapp-compute-dev"
-data_rsg      = "rg-notesapp-data-dev"
-network_rsg   = "rg-notesapp-network-dev"
+compute_rsg   = "rg-compute"
+data_rsg      = "rg-data"
+network_rsg   = "rg-network"
 vnet_name     = "vnet-notesapp-dev"
 address_space = ["10.0.0.0/16"]
 
