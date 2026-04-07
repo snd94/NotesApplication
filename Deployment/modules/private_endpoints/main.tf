@@ -26,12 +26,12 @@ resource "azurerm_private_dns_zone" "cognitive" {
 # DNS ZONE LINKS
 #############################################
 
-resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_link" {
-  name                  = "cosmos-link"
-  resource_group_name   = var.network_rsg
-  private_dns_zone_name = azurerm_private_dns_zone.cosmos.name
-  virtual_network_id    = var.vnet_id
-}
+# resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_link" {
+#   name                  = "cosmos-link"
+#   resource_group_name   = var.network_rsg
+#   private_dns_zone_name = azurerm_private_dns_zone.cosmos.name
+#   virtual_network_id    = var.vnet_id
+# }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "search_link" {
   name                  = "search-link"
@@ -58,24 +58,24 @@ resource "azurerm_private_dns_zone_virtual_network_link" "cognitive_link" {
 # COSMOS DB PRIVATE ENDPOINT
 #############################################
 
-resource "azurerm_private_endpoint" "cosmos_pe" {
-  name                = "pe-cosmos"
-  location            = var.location
-  resource_group_name = var.network_rsg
-  subnet_id           = var.subnet_id
+# resource "azurerm_private_endpoint" "cosmos_pe" {
+#   name                = "pe-cosmos"
+#   location            = var.location
+#   resource_group_name = var.network_rsg
+#   subnet_id           = var.subnet_id
 
-  private_service_connection {
-    name                           = "cosmos-connection"
-    private_connection_resource_id = var.cosmosdb_account_id
-    subresource_names              = ["Sql"]
-    is_manual_connection           = false
-  }
+#   private_service_connection {
+#     name                           = "cosmos-connection"
+#     private_connection_resource_id = var.cosmosdb_account_id
+#     subresource_names              = ["Sql"]
+#     is_manual_connection           = false
+#   }
 
-  private_dns_zone_group {
-    name                 = "cosmos-dns-group"
-    private_dns_zone_ids = [azurerm_private_dns_zone.cosmos.id]
-  }
-}
+#   # private_dns_zone_group {
+#   #   name                 = "cosmos-dns-group"
+#   #   private_dns_zone_ids = [azurerm_private_dns_zone.cosmos.id]
+#   # }
+# }
 
 #############################################
 # AZURE AI SEARCH PRIVATE ENDPOINT
