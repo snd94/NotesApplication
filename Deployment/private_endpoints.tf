@@ -9,7 +9,7 @@ module "private_endpoints" {
   cognitive_account_id = module.ai_foundry.cognitive_account_id
   search_service_id    = module.ai_search.search_service_id
   depends_on = [
-    module.cosmosdb,
+    # module.cosmosdb,
     module.sa,
     module.ai_foundry
   ]
