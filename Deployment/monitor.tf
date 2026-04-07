@@ -1,0 +1,21 @@
+module "monitor" {
+  depends_on                    = [module.vnet]
+  source                        = "./modules/azmonitor"
+  compute_rsg                   = var.compute_rsg
+  location                      = var.location
+  log_analytics_workspace_name  = var.log_analytics_workspace_name
+  law_sku                       = var.law_sku
+  retention_in_days             = var.retention_in_days
+  daily_quota_gb                = var.daily_quota_gb
+  internet_ingestion_enabled    = var.internet_ingestion_enabled
+  internet_query_enabled        = var.internet_query_enabled
+  app_insights_name             = var.app_insights_name
+  application_type              = var.application_type
+  appinsights_retention_in_days = var.appinsights_retention_in_days
+  sampling_percentage           = var.sampling_percentage
+  daily_data_cap_in_gb          = var.daily_data_cap_in_gb
+  disable_ip_masking            = var.disable_ip_masking
+  diagnostic_name               = var.diagnostic_name
+  log_categories                = var.log_categories
+  metric_categories             = var.metric_categories
+}
