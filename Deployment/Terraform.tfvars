@@ -196,7 +196,7 @@ encryption = null
 
 # kv
 
-key_vault_name = "kv-notesapp-dev"
+key_vault_name = "kv-notesapp-snd-dev"
 kv_sku_name    = "standard"
 
 # azure monitor
