@@ -57,7 +57,8 @@ jobs:
             -backend-config="resource_group_name=${{ secrets.TF_STATE_RESOURCE_GROUP }}" \
             -backend-config="storage_account_name=${{ secrets.TF_STATE_STORAGE_ACCOUNT }}" \
             -backend-config="container_name=${{ secrets.TF_STATE_CONTAINER }}" \
-            -backend-config="key=notesapplication.tfstate"
+            -backend-config="key=notesapplication.tfstate" \
+            -backend-config="use_oidc=true"
 
       - name: Terraform Validate
         run: terraform validate
@@ -104,7 +105,8 @@ jobs:
             -backend-config="resource_group_name=${{ secrets.TF_STATE_RESOURCE_GROUP }}" \
             -backend-config="storage_account_name=${{ secrets.TF_STATE_STORAGE_ACCOUNT }}" \
             -backend-config="container_name=${{ secrets.TF_STATE_CONTAINER }}" \
-            -backend-config="key=notesapplication.tfstate"
+            -backend-config="key=notesapplication.tfstate" \
+            -backend-config="use_oidc=true"
 
       - name: Download Plan Artifact
         uses: actions/download-artifact@v4
