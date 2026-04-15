@@ -17,10 +17,10 @@ on:
         description: Target environment
         type: choice
         options:
-          - dev
-          - staging
-          - prod
-        default: dev
+          - DEV
+          - UAT
+          - PROD
+        default: DEV
         required: true
 
 env:
